@@ -1,0 +1,107 @@
+{% extends "base.html" %} {% block content %} 
+<style>
+  .my_grid {
+    display: grid;
+    grid-template-columns: 1fr 3fr 1fr;
+    gap:1rem;
+    padding: 1rem 1rem
+  }
+  .my_custom_color {
+    color: rgba(173, 173, 173, 0.083);
+  }
+</style>
+
+  <div class="my_grid flex justify-center h-screen w-full mt-12">
+    <div class="w-90">
+
+      <div class="flex flex-col items-start">
+        <!-- Left card for most recent tickets -->
+        {% for most_recent in most_recent %}
+        <div class="bg-slate-800 text-gray-200 p-2 mb-4 rounded-md drop-shadow-lg w-full">
+          <div class="flex-grow pl-2 px-4 py-1  ">
+            <h2 class="tracking-widest text-xs font-medium text-gray-200 mb-1">{{most_recent.updated_at}}</h2>
+            <a class="text-lg font-medium text-sky-500 mb-3" href="{% url 'tickets' most_recent.id %}">{{most_recent.id}}</a>
+            <p class="leading-relaxed mb-5">{{most_recent.complaint_detail|slice:":100"}} [...]</p>
+            <a class="inline-flex items-center">
+              <span class="flex-grow flex flex-col pl-1">
+                <span class="title-font font-medium text-gray-200"><strong>{{most_recent.incident_category}} | {{most_recent.incident_subcategory}}</strong></span>
+              </span>
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+
+      </div>
+    </div>
+<!-- Main section. Ticket details are viewed here -->
+    <div class="flex-1 text-gray-200 w-full">
+      <div class="flex flex-col items-center w-full">
+        <div class="bg-slate-800 flex-col p-12 mb-4 rounded-md w-full">
+          <h1>
+            <div class="p-4 w-full flex-col">
+              <h5 class="text-sm">created by: {{ticket.agent_id}} @ {{ticket.created_at}}</h5>
+              {% if ticket.created_at|time:"H:i:s" == ticket.updated_at|time:"H:i:s" %}
+              <small>last updated: -- </small>
+              {% else %}
+              <small>last updated:{{ticket.updated_at}}</small>
+              {% endif %}
+              <br>
+              <small>location: {{ticket.customer_state}} | {{ticket.customer_zip}}</small>
+              <br><br>
+              <h1 class="text-2xl font-medium text-sky-500 mb-3">{{ticket.id}}</h1>
+              <h3>{{ticket.complaint_detail}}</h3>
+            </div>
+            <div class="p-4 mb-4">
+              <div>
+                <h3 class=""><strong>Categorization</strong></h3>
+                <h3>{{ticket.incident_category}} / {{ticket.incident_subcategory}}</h3><br>
+                <h3 class=""><strong>Company</strong></h3>
+                <h3>{{ticket.company}}</h3><br>
+                <h3 class=""><strong>Intake</strong></h3>
+                <h3>{{ticket.intake_channel}}</h3><br>
+                <h3 class=""><strong>Status</strong></h3>
+                <h3>{{ticket.status}}</h3><br>
+                {% if ticket.status == 'In Progress' %}
+                <div class="mt-6">
+                  <a class="py-2 px-2 border-2 hover:bg-red-800 rounded-md" href="{% url 'close' ticket.id %}">Close Ticket</a>
+                </div>
+                {% else %}
+                <div class="mt-6">
+                  <a class="py-2 px-2 border-2 hover:bg-blue-800 rounded-md" href="{% url 'close' ticket.id %}">Reopen Ticket</a>
+                </div>
+                {% endif %}
+
+              </div>
+          </h1>
+        </div>
+      </div>
+    </div>
+
+<!-- Right section -->
+<div class="flex-1 p-4 bg-slate-800 text-gray-200 border-2 border-white border-opacity-10 rounded-md mb-2">
+  <div class="flex flex-col items-start">
+    <h2 class="mb-2 text-slate-500 text-lg"><em>Updates</em></h2>
+    {% for update in updates %}
+    <div class=" text-gray-200 border-b-2 border-white border-opacity-10 p-4 mb-4 my-1 drop-shadow-lg w-full">
+      <div class="flex-grow pl-1 py-1 w-full  ">
+        <h2 class="tracking-widest text-xs text-sky-500 font-medium mb-1">{{ update.updated_by }} | {{ update.updated_at }}</h2>
+        <p class="leading-relaxed mb-5 w-full">{{ update.comments|slice:":300" }}</p>
+      </div>
+      {% if update.file %}
+      <p><a href="{{ update.file.url }}">File</a></p>
+      {% endif %}
+    </div>
+    {% empty %}
+    <h2>No updates yet.</h2>
+    {% endfor %}
+    {% if user.is_authenticated %}
+    <div class="mt-16">
+      <a class="py-2 px-4  text-gray-200 border-2 border-white border-opacity-50 hover:bg-slate-500  rounded-md" href="{% url 'update' ticket.id %}">Update</a>
+    </div>
+
+    {% endif %}
+  </div>
+</div>
+  </div>
+</div>
+{% endblock content %}

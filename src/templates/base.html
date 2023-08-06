@@ -1,0 +1,32 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'custom/styles.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/output.css' %}" />
+    <title>Document</title>
+  </head>
+  <body class="bg-slate-900">
+    {% include "navbar.html" %} 
+      <div class="messages mt-9">
+        <ul id="error-messages" class="text-gray-200 mt-9">
+          {% for message in messages %}
+          <p>{{ message }}</p>
+          {% endfor %}
+        </ul>
+      </div>
+{% block content %} {% endblock content %}
+
+    <script src="{% static 'custom/script.js' %}"></script>
+    <script src="{% static 'custom/flowbite.min.js' %}"></script>
+    <script>
+      var mess = document.getElementById("error-messages")
+      setTimeout(function() {
+        mess.style.display = 'none';
+      }, 5000);
+    </script>
+  </body>
+</html>

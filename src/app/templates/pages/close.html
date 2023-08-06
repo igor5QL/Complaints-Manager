@@ -1,0 +1,20 @@
+{% extends "base.html" %} {% block content %} {% load widget_tweaks %}
+<div class="flex flex-col items-center justify-center mt-24">
+  <div class="text-white">
+    <form action="" method="post">
+      {% csrf_token %} 
+      {{ form.status|add_class:"read-only" }} <br>
+      {{form.comments}}
+      <div>
+        <h1>Are you sure you want to mark ticket &nbsp<span class="text-sky-500 text-xl">{{pk}}</span>&nbsp as completed? </h1>
+      </div>
+      <button class="py-2 px-4 text-gray-200 border-2 border-white border-opacity-50 hover:bg-slate-500 rounded-md mt-6"  type="submit">SUBMIT</button>
+      {% if form.files %}
+      {{form.files}}
+      {% endif %}
+    </form>
+  </div>
+</div>
+
+{% endblock content %}
+

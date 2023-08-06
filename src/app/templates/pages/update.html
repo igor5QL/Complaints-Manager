@@ -1,0 +1,14 @@
+{% extends "base.html" %} {% block content %}
+<div class="flex flex-col items-center text-gray-200">
+  <form method="POST" enctype="multipart/form-data" >
+    {% csrf_token %}
+      <div class="">
+        {{form.comments}}
+      </div>
+        {{form.file}}
+        <button type="submit" class="inline-flex items-center py-2 px-2 text-gray-200 border-2 border-white border-opacity-50 hover:bg-slate-500  rounded-md">
+          UPDATE
+        </button>
+      </form>
+</div>
+{% endblock content %}

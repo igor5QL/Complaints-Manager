@@ -1,0 +1,97 @@
+{% extends "base.html" %} {% block content %}
+<div class="flex justify-center flex-col items-center mt-12">
+  <br />
+  <div class="mb-6">
+    <h1 class="text-2xl text-gray-200 border-b-2 border-opacity-25 pb-4 px-6">Search</h1>
+  </div>
+  <br />
+  <div class="">
+    <form id="search-form" action="" method="post" class="flex flex-row">
+      {% csrf_token %}
+      <div class="px-5">
+        <input
+          type="text"
+          placeholder="Complaint ID"
+          name="complaint_id_search"
+          class="form-input px-4 py-3 rounded-full text-center placeholder:italic"
+        />
+      </div>
+      <div class="px-5">
+        <input
+          type="text"
+          placeholder="Account Number"
+          name="account_number_search"
+          class="form-input px-4 py-3 rounded-full text-center placeholder:italic"
+        />
+      </div>
+      <div class="px-5">
+        <input
+          type="text"
+          placeholder="Agent ID"
+          name="agent_id_search"
+          class="form-input px-4 py-3 rounded-full text-center placeholder:italic"
+        />
+      </div>
+      <div class="px-5">
+        <input
+          type="text"
+          placeholder="Company"
+          name="company_search"
+          class="form-input px-4 py-3 rounded-full text-center placeholder:italic"
+        />
+      </div>
+      <div class="px-5">
+        <input
+          type="text"
+          placeholder="State"
+          name="state_search"
+          class="form-input px-4 py-3 rounded-full text-center placeholder:italic"
+        />
+      </div>
+
+      <button class="rounded-full px-4 text-gray-200 hover:bg-sky-700" id="search-button" type="submit">
+        Go
+      </button>
+    </form>
+  </div>
+</div>
+<!-- display results -->
+  <div class="relative overflow-x-auto mt-12 px-6 mb-6">
+    <table class="table-auto w-full text-sm text-left text-gray-500 dark:text-gray-400">
+      <thead class="text-xs text-gray-700 uppercase bg-gray-700 dark:text-gray-400">
+        <tr class="bg-gray-800 text-gray-200 text-center">
+
+          <th scope="col" class="px-6 py-3">ID</th>
+          <th scope="col" class="px-6 py-3">Created</th>
+          <th scope="col" class="px-6 py-3">State</th>
+          <th scope="col" class="px-6 py-3">Account Number</th>
+          <th scope="col" class="px-6 py-3">Agent ID</th>
+          <th scope="col" class="px-6 py-3">Category</th>
+          <th scope="col" class="px-6 py-3">Subcategory</th>
+          <th scope="col" class="px-6 py-3">Complaint</th>
+          <th scope="col" class="px-6 py-3">Company</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for tickets in searched_ticket %}
+        
+          <tr class=" border-b-2 border-gray-100 border-opacity-30">
+            <td class="text-gray-200 text-center border-b-7 border-x-2 border-opacity-30 border-white py-2 px-3 hover:bg-sky-700"><a href="{% url 'tickets' tickets.id %}">{{tickets.id}}</a></td>
+            <td class="text-gray-200 border-b-7 border-x-2 border-opacity-30 border-white py-2 px-3">{{tickets.created_at}}</td>
+            <td class="text-gray-200 border-b-7 border-x-2 border-opacity-30 border-white py-2 px-3">{{tickets.customer_state}}</td>
+            <td class="text-gray-200 border-b-7 border-x-2 border-opacity-30 border-white py-2 px-3">{{tickets.account_number}}</td>
+            <td class="text-gray-200 border-b-7 border-x-2 border-opacity-30 border-white py-2 px-3">{{tickets.agent_id}}</td>
+            <td class="text-gray-200 border-b-7 border-x-2 border-opacity-30 border-white py-2 px-3">{{tickets.incident_category}}</td>
+            <td class="text-gray-200 border-b-7 border-x-2 border-opacity-30 border-white py-2 px-3">{{tickets.incident_subcategory}}</td>
+            <td class="text-gray-200 border-b-7 border-x-2 border-opacity-30 border-white py-2 px-3">{{tickets.complaint_detail|slice:":50"}}...</td>
+            <td class="text-gray-200 border-b-7 border-x-2 border-opacity-30 border-white py-2 px-3">{{tickets.company}}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+
+
+
+{% endblock content %}

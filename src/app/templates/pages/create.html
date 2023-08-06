@@ -1,0 +1,56 @@
+{% extends "base.html" %} {% block content %} {% load widget_tweaks %}
+<div class="flex flex-col items-center justify-center">
+  
+<form method="POST">
+  {% csrf_token %}
+  <div class="grid gap-6 mb-6 md:grid-cols-2">
+      <div>
+          <label for="first_name" class="block mb-2 text-sm font-medium text-gray-200 dark:text-white">Account Number</label>
+          {{form.account_number}}
+      </div>
+      <div>
+          <label for="company" class="block mb-2 text-sm font-medium text-gray-200 dark:text-white">Company</label>
+          {{form.company}}
+      </div>
+      <div>
+          <label for="incident_category" class="block mb-2 text-sm font-medium text-gray-200 dark:text-white">Incident Category</label>
+          {{form.incident_category}}
+      </div>
+      <div>
+          <label for="incident_subcategory" class="block mb-2 text-sm font-medium text-gray-200 dark:text-white">Incident Sub Category</label>
+          {{form.incident_subcategory}}
+      </div>
+      <div>
+        <label for="product" class="block mb-2 text-sm font-medium text-gray-200 dark:text-white">Product</label>
+     {{form.product}}
+    </div>
+    <div>
+      <label for="status" class="block mb-2 text-sm font-medium text-gray-200 dark:text-white">Status</label>
+      {{form.status}}
+  </div>
+  <div>
+    <label for="status" class="block mb-2 text-sm font-medium text-gray-200 dark:text-white">Intake</label>
+    {{form.intake_channel}}
+</div>
+  </div>
+  <div class="mb-6">
+      <label for="customer_zip" class="block mb-2 text-sm font-medium text-gray-200 dark:text-white">Zip</label>
+      {{form.customer_zip}}
+  </div> 
+  <div class="mb-6">
+      <label for="customer_state" class="block mb-2 text-sm font-medium text-gray-200 dark:text-white">State</label>
+      {{form.customer_state}}
+  </div> 
+  <div class="mb-6">
+      <label for="complaint_detail" class="block mb-2 text-sm font-medium text-gray-200 dark:text-white">Complaint Details</label>
+      {{form.complaint_detail}}
+  </div> 
+  <div class="flex items-start mb-6">
+      <div class="flex items-center h-5">
+     
+  </div>
+  <button type="submit" class="py-2 px-4 text-gray-200 border-2 border-white border-opacity-50 hover:bg-slate-500 rounded-md mt-6">Create</button>
+</form>
+
+</div>
+{% endblock content %}
